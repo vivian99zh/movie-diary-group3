@@ -1,0 +1,83 @@
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style type="text/tailwindcss">
+  @theme {
+    --color-primary: #01b3e4;
+    --color-secondary: var(--color-gray-600);
+    --color-tertiary: #6f42c1;
+    --color-success: #01c6ac;
+    --color-error: var(--color-red-500);
+    --color-info: #d27701;
+    --color-surface: var(--color-gray-50);
+    --color-gray-light: var(--color-gray-400);
+    --color-gray-base: var(--color-gray-600);
+    --color-gray-dark: var(--color-gray-800);
+    --color-gradient-primary: linear-gradient(90deg, var(--color-primary), var(--color-success));
+    --color-gradient-secondary: linear-gradient(90deg, var(--color-primary), var(--color-tertiary));
+    --color-gradient-tertiary: linear-gradient(90deg, var(--color-success), var(--color-tertiary));
+  }
+
+  @layer base {
+    body {
+      font-family: "Montserrat", sans-serif;
+    }
+  }
+
+  @layer utilities {
+    .bg-gradient-primary {
+      background-image: linear-gradient(90deg, var(--color-primary), var(--color-success));
+    }
+    .bg-gradient-secondary {
+      background-image: linear-gradient(90deg, var(--color-primary), var(--color-tertiary));
+    }
+    .bg-gradient-tertiary {
+      background-image: linear-gradient(90deg, var(--color-success), var(--color-tertiary));
+    }
+
+    .material {
+      position: relative;
+      border-radius: 12px;
+      box-shadow:
+        0 2px 4px rgb(0 0 0 / 0.12),
+        0 1px 2px rgb(0 0 0 / 0.24);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .material:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 8px 16px rgb(0 0 0 / 0.18),
+        0 4px 8px rgb(0 0 0 / 0.28);
+    }
+
+    .material:active {
+      transform: translateY(-1px);
+      box-shadow:
+        0 4px 8px rgb(0 0 0 / 0.15),
+        0 2px 4px rgb(0 0 0 / 0.25);
+    }
+  }
+  @layer components {
+    .btn-primary {
+      background: var(--color-gradient-primary);
+      cursor: pointer;
+      color: var(--color-surface);
+    }
+    .btn-secondary {
+      background: var(--color-gradient-secondary);
+      cursor: pointer;
+      color: var(--color-surface);
+    }
+    .btn-tertiary {
+      background: var(--color-gradient-tertiary);
+      cursor: pointer;
+      color: var(--color-surface);
+    }
+  }
+</style>
