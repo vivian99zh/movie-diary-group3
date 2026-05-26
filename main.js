@@ -1,5 +1,5 @@
 // TMDB API Configuration
-const API_TOKEN = "YOUR_API_TOKEN_HERE"; // Replace with your actual API token from TMDB
+const API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMTc1YjZhYjAxMTA2NDdjNmMxYWViYmFkYWFhMmFlYSIsIm5iZiI6MTc3OTc4MjQwNC41OTcsInN1YiI6IjZhMTU1MzA0NDI2NTVjYWRjNjA4NTgyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ACAwtCAu5i8RCSmvId7VYDx_dEoqG5VX5K3E_ItbsrM"; // Replace with your actual API token from TMDB
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 const LOAD_PAGES = 5;
