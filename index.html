@@ -16,7 +16,21 @@
       <div id="movies" class="container mx-auto px-8 py-8">
         <h1 class="text-3xl font-bold text-gray-dark mb-8 flex items-center">Popular Movies</h1>
 
-        <div class="text-gray-dark mb-8">Search implementation here.</div>
+        <div class="relative mb-8">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search movies..."
+            class="w-full px-4 py-3 pr-10 rounded-lg border border-gray-light bg-white text-gray-dark outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          />
+          <button
+            id="searchClear"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-base hidden"
+            aria-label="Clear search"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
 
         <div id="moviesContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
       </div>
