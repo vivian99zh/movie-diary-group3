@@ -3,15 +3,30 @@
   <head>
     <title>TMBD Journal</title>
     <script src="loadSections.js" defer></script>
+    <script src="journal.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
     <div id="navbar" data-path="sections/navbar.html"></div>
 
-    <!-- Your own journal content -->
-    <main id="main-content" class="text-gray-dark container mx-auto px-8 pt-20">
-      <h1 class="text-3xl font-bold mb-8">My Journal</h1>
-      <p>Journal implementation here.</p>
+    <main id="main-content" class="container mx-auto min-h-screen px-8 pt-28 text-gray-dark">
+      <div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 class="text-3xl font-bold">My Journal</h1>
+          <p class="mt-2 text-gray-base">Your favourite movies and personal notes.</p>
+        </div>
+        <p id="favorite-count" class="font-semibold text-primary">0 saved</p>
+      </div>
+
+      <section
+        id="empty-state"
+        class="material bg-surface p-8 text-center text-gray-base"
+      >
+        <h2 class="mb-2 text-xl font-bold text-gray-dark">No favourites yet</h2>
+        <p>Add movies from the home page to start your journal.</p>
+      </section>
+
+      <section id="journal-list" class="grid gap-6"></section>
     </main>
 
     <div id="footer" data-path="sections/footer.html"></div>
