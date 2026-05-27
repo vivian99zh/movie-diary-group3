@@ -1,4 +1,35 @@
-<section class="hero flex flex-col items-center justify-center text-center py-40 bg-gradient-primary text-surface">
-  <h1 class="text-4xl font-bold mb-4">Welcome to My Homepage</h1>
-  <p>Hero section implementation here</p>
+<!-- Hero Section with JavaScript Carousel -->
+<section class="hero-section relative h-screen overflow-hidden bg-indigo-900">
+  <div class="absolute inset-0 w-full h-full">
+    <div id="movieContainer" class="relative w-full h-full">
+      <!-- Image or YouTube Player will be dynamically injected -->
+    </div>
+    <!-- Overlay for better text readability -->
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  </div>
+
+  <!-- Carousel Controls -->
+  <button
+    id="prevBtn"
+    class="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 text-surface p-2 rounded-full transition duration-300 hover:scale-120 cursor-pointer"
+  >
+    <i class="fas fa-chevron-left text-2xl"></i>
+  </button>
+
+  <button
+    id="nextBtn"
+    class="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 text-surface p-2 rounded-full transition duration-300 hover:scale-120 cursor-pointer"
+  >
+    <i class="fas fa-chevron-right text-2xl"></i>
+  </button>
+
+  <!-- Scroll Down Indicator -->
+  <a
+    id="scrollIndicator"
+    href="#main-content"
+    class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 p-2 rounded-full transition duration-300 hover:scale-120 transition cursor-pointer"
+  >
+    <i class="fas fa-chevron-down text-surface text-2xl"></i>
+  </a>
 </section>
+<script src="hero.js"></script>
