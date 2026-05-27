@@ -1,5 +1,6 @@
 // TMDB API Configuration
-const API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMTc1YjZhYjAxMTA2NDdjNmMxYWViYmFkYWFhMmFlYSIsIm5iZiI6MTc3OTc4MjQwNC41OTcsInN1YiI6IjZhMTU1MzA0NDI2NTVjYWRjNjA4NTgyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ACAwtCAu5i8RCSmvId7VYDx_dEoqG5VX5K3E_ItbsrM"; // Replace with your actual API token from TMDB
+const API_TOKEN =
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMTc1YjZhYjAxMTA2NDdjNmMxYWViYmFkYWFhMmFlYSIsIm5iZiI6MTc3OTc4MjQwNC41OTcsInN1YiI6IjZhMTU1MzA0NDI2NTVjYWRjNjA4NTgyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ACAwtCAu5i8RCSmvId7VYDx_dEoqG5VX5K3E_ItbsrM"; // Replace with your actual API token from TMDB
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 const LOAD_PAGES = 5;
@@ -12,6 +13,52 @@ const options = {
     Authorization: `Bearer ${API_TOKEN}`,
   },
 };
+
+// Grab the search input and clear button elements from the DOM
+const searchInput = document.querySelector("#searchInput");
+const searchClear = document.querySelector("#searchClear");
+
+// Holds the debounce timer ID so we can cancel it on the next keystroke
+let debounceTimer;
+
+// Guard: if #searchInput doesn't exist on this page, skip everything below
+if (searchInput) {
+  // Fires on every keystroke, paste, or delete inside the search field
+  searchInput.addEventListener("input", () => {
+    // Read the current value and strip leading/trailing whitespace
+    const query = searchInput.value.trim();
+
+    // Show the clear button when there is text, hide it when the field is empty
+    // toggle(className, force): adds the class if force is true, removes it if false
+    searchClear.classList.toggle("hidden", query === "");
+
+    // Cancel the previous timer so we don't fire while the user is still typing
+    clearTimeout(debounceTimer);
+
+    // Wait 300ms after the last keystroke before making the API call
+    // This prevents sending a request on every single character typed
+    debounceTimer = setTimeout(() => {
+      if (query) {
+        // User has typed something — search TMDB for matching movies
+        fetchSearchResults(query);
+      } else {
+        // User cleared the field — wipe results and restore popular movies
+        const container = document.querySelector("#moviesContainer");
+        container.innerHTML = "";
+        fetchAllPopularMovies(LOAD_PAGES);
+      }
+    }, 300);
+  });
+
+  // When the clear button (×) is clicked, reset everything back to the default state
+  searchClear.addEventListener("click", () => {
+    searchInput.value = "";                 // empty the input field
+    searchClear.classList.add("hidden");    // hide the clear button
+    const container = document.querySelector("#moviesContainer");
+    container.innerHTML = "";              // remove search results from the page
+    fetchAllPopularMovies(LOAD_PAGES);     // reload the popular movies
+  });
+}
 
 // Fetch popular movies
 fetchAllPopularMovies(LOAD_PAGES);
@@ -72,6 +119,42 @@ const createMovieHtml = (movie) => {
     </div>
   `;
 };
+
+// Search TMDB for movies matching the user's query and render the results
+async function fetchSearchResults(query) {
+  const container = document.querySelector("#moviesContainer");
+  if (!container) return;
+
+  // Clear popular movies (or previous search results) before showing new ones
+  container.innerHTML = "";
+
+  try {
+    // encodeURIComponent converts spaces and special characters into URL-safe format
+    // e.g. "the dark knight" → "the%20dark%20knight"
+    const res = await fetch(
+      `${BASE_URL}/search/movie?query=${encodeURIComponent(query)}&language=en-US&page=1`,
+      options,
+    );
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+    // Parse the JSON response — data.results is an array of movie objects
+    const data = await res.json();
+
+    // If TMDB returned no matches, show a friendly message instead of an empty grid
+    if (data.results.length === 0) {
+      container.innerHTML =
+        '<div class="col-span-full text-center text-gray-base py-8"><i class="fas fa-search"></i> No movies found for "<strong>' +
+        query +
+        '</strong>".</div>';
+      return;
+    }
+
+    // Render the search results as movie cards
+    displayMovies(data.results);
+  } catch (err) {
+    console.error("Error searching movies:", err);
+  }
+}
 
 // Add movie to favourites in localStorage
 function addToFavourites(movie) {
