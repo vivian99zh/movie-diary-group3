@@ -52,11 +52,11 @@ if (searchInput) {
 
   // When the clear button (×) is clicked, reset everything back to the default state
   searchClear.addEventListener("click", () => {
-    searchInput.value = "";                 // empty the input field
-    searchClear.classList.add("hidden");    // hide the clear button
+    searchInput.value = ""; // empty the input field
+    searchClear.classList.add("hidden"); // hide the clear button
     const container = document.querySelector("#moviesContainer");
-    container.innerHTML = "";              // remove search results from the page
-    fetchAllPopularMovies(LOAD_PAGES);     // reload the popular movies
+    container.innerHTML = ""; // remove search results from the page
+    fetchAllPopularMovies(LOAD_PAGES); // reload the popular movies
   });
 }
 
@@ -101,7 +101,7 @@ const createMovieHtml = (movie) => {
   return `
     <div class="material bg-surface rounded-xlm overflow-hidden">
         <img class="w-full h-96 object-cover" 
-             src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : "no-image.png"}" 
+             src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : "no-Image.png"}" 
              alt="${movie.title}">
         <div class="p-4">
             <h3 class="font-bold text-lg text-gray-dark  mb-2 line-clamp-1">${movie.title}</h3>
