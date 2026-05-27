@@ -91,9 +91,8 @@ function renderMovieContainer(index) {
       : `https://image.tmdb.org/t/p/original${movie.posterPath}`;
 
     movieContainer.innerHTML = `
-      <div class="relative w-full h-full group cursor-pointer" data-video-key="${movie.videoKey}" data-video-index="${index}">
-        <!-- Background Image -->
-        <img 
+      <div class="relative w-full h-full">
+       <img 
           src="${backdropUrl}" 
           alt="${movie.title}"
           class="w-full h-full object-cover"
@@ -123,8 +122,7 @@ function renderMovieContainer(index) {
     `;
 
     // Add hover event listener to the hero section to play video on hover
-
-    const heroSection = document.querySelector(".hero-section");
+    const heroSection = document.querySelector("#hero-section");
     if (heroSection) {
       heroSection.addEventListener("mouseenter", () => {
         playVideoOnHover(index, movie.videoKey);
