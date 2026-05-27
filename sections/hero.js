@@ -104,7 +104,7 @@ function renderMovieContainer(index) {
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         
         <!-- Title and Overview Text - Directly on Image -->
-        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-surface">
+        <div class="absolute bottom-0 left-0 right-0 p-8  md:p-12 text-surface">
           <h1 class="text-primary text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-4 drop-shadow-lg">
             ${movie.title}
           </h1>
@@ -163,70 +163,10 @@ function revertToImage(index) {
   isVideoPlaying = false;
   const movie = moviesList[index];
   if (!movie) return;
-
-  const movieContainer = document.querySelector("#movieContainer");
-  if (!movieContainer) return;
-
   if (currentMovieIndex !== index) return;
 
   setTimeout(() => {
-    const backdropUrl = movie.backdropPath
-      ? `https://image.tmdb.org/t/p/original${movie.backdropPath}`
-      : `https://image.tmdb.org/t/p/original${movie.posterPath}`;
-
-    movieContainer.innerHTML = `
-      <div class="relative w-full h-full group cursor-pointer" data-video-key="${movie.videoKey}" data-video-index="${index}">
-        <img 
-          src="${backdropUrl}" 
-          alt="${movie.title}"
-          class="w-full h-full object-cover"
-        />
-        
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-        
-        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-surface">
-          <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-4 drop-shadow-lg">
-            ${movie.title}
-          </h1>
-          
-          <div class="flex items-center gap-2 mb-2 md:mb-3">
-            <span class="text-yellow-400 font-semibold">★ ${movie.rating?.toFixed(1) || "N/A"}</span>
-            <span class="text-surface/60">•</span>
-            <span class="text-surface/80 text-sm md:text-base">${new Date().getFullYear()}</span>
-          </div>
-          
-          <p class="text-sm md:text-base lg:text-lg text-gray-200 max-w-2xl drop-shadow-md line-clamp-2 md:line-clamp-3">
-            ${movie.overview?.substring(0, 200) || ""}${movie.overview?.length > 200 ? "..." : ""}
-          </p>
-          
-          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-            <div class="bg-surface/90 rounded-full p-4 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-              <svg class="w-12 h-12 md:w-16 md:h-16 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-
-    const container = movieContainer.querySelector(".group");
-    if (container) {
-      let hoverTimer;
-
-      container.addEventListener("mouseenter", () => {
-        if (hoverTimer) clearTimeout(hoverTimer);
-        hoverTimer = setTimeout(() => {
-          if (currentMovieIndex === index) {
-            playVideoOnHover(index, movie.videoKey);
-          }
-        }, 200);
-      });
-
-      container.addEventListener("mouseleave", () => {
-        if (hoverTimer) clearTimeout(hoverTimer);
-      });
-    }
+    renderMovieContainer(index);
   }, 300);
 }
 
