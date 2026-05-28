@@ -23,6 +23,10 @@ let debounceTimer;
 
 // Guard: if #searchInput doesn't exist on this page, skip everything below
 if (searchInput) {
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") e.preventDefault();
+  });
+
   // Fires on every keystroke, paste, or delete inside the search field
   searchInput.addEventListener("input", () => {
     // Read the current value and strip leading/trailing whitespace
