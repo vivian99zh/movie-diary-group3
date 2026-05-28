@@ -1,3 +1,4 @@
+
 const FAVORITES_STORAGE_KEY = "favourites";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -98,23 +99,55 @@ const createJournalCard = (movie) => {
   overview.className = "text-sm leading-6 text-gray-base";
   overview.textContent = movie.overview || "No description available.";
 
-  const noteLabel = document.createElement("label");
+  const noteLabel = document.createElement("h4");
   noteLabel.className = "text-sm font-bold";
-  noteLabel.htmlFor = `note-${movie.id}`;
   noteLabel.textContent = "Personal note";
+
+  const savedNote = document.createElement("p");
+  const renderSavedNote = (note) => {
+    const hasNote = note.trim().length > 0;
+    savedNote.className = `min-h-12 whitespace-pre-line rounded-lg border border-gray-light bg-white px-3 py-2 text-sm leading-6 ${
+      hasNote ? "text-gray-dark" : "italic text-gray-base"
+    }`;
+    savedNote.textContent = hasNote ? note : "No note saved yet.";
+  };
+  renderSavedNote(movie.note || "");
 
   const noteInput = document.createElement("textarea");
   noteInput.id = `note-${movie.id}`;
   noteInput.className = "min-h-28 w-full rounded-lg border border-gray-light bg-white px-3 py-2 text-sm leading-6 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
-  noteInput.placeholder = "What did this movie make you think or feel?";
-  noteInput.value = movie.note || "";
-  noteInput.addEventListener("input", (event) => {
-    updateMovieNote(movie.id, event.target.value);
+  noteInput.placeholder = "Write a note, then save it.";
+  noteInput.setAttribute("aria-label", `New note for ${movie.title}`);
+  noteInput.value = "";
+
+  const noteActions = document.createElement("div");
+  noteActions.className = "flex flex-col gap-2 sm:flex-row sm:items-center";
+
+  const saveNoteButton = document.createElement("button");
+  saveNoteButton.type = "button";
+  saveNoteButton.className = "material self-start bg-gradient-primary px-4 py-2 text-sm font-bold text-surface";
+  saveNoteButton.textContent = "Save note";
+
+  const noteStatus = document.createElement("p");
+  noteStatus.className = "text-sm font-semibold text-success";
+  noteStatus.textContent = "";
+
+  noteInput.addEventListener("input", () => {
+    noteStatus.textContent = "";
   });
 
+  saveNoteButton.addEventListener("click", () => {
+    const newNote = noteInput.value.trim();
+    updateMovieNote(movie.id, newNote);
+    renderSavedNote(newNote);
+    noteInput.value = "";
+    noteStatus.textContent = "Note saved.";
+  });
+
+  noteActions.append(saveNoteButton, noteStatus);
   titleGroup.append(title, meta);
   headingRow.append(titleGroup, removeButton);
-  content.append(headingRow, overview, noteLabel, noteInput);
+  content.append(headingRow, overview, noteLabel, savedNote, noteInput, noteActions);
   card.append(image, content);
 
   return card;
